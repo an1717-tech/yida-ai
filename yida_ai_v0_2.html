@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5f1eb">
+<title>衣搭 AI · V0.2</title>
+<style>
+:root{--bg:#f5f1eb;--paper:#fffdf9;--ink:#181818;--muted:#77736d;--line:#e6dfd5;--soft:#f0e8dc;--black:#171717}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Microsoft YaHei",sans-serif}
+button,input{font:inherit}button{cursor:pointer}.app{max-width:1100px;margin:auto;padding:16px 16px 110px}.top{height:54px;display:flex;align-items:center;justify-content:space-between}.logo{font-size:24px;font-weight:750;letter-spacing:-1.2px}.logo span{font-weight:400;margin-left:4px}.iconbtn{width:42px;height:42px;border:1px solid var(--line);background:var(--paper);border-radius:50%;font-size:23px}
+.page{display:none}.page.active{display:block}.hero{background:var(--paper);border:1px solid var(--line);border-radius:30px;overflow:hidden;display:grid;grid-template-columns:1fr .85fr;min-height:520px}
+.hero-copy{padding:58px 48px;display:flex;flex-direction:column;justify-content:center}.eyebrow{font-size:13px;letter-spacing:2px;color:var(--muted);margin-bottom:18px;text-transform:uppercase}h1{font-size:clamp(46px,6vw,76px);line-height:1;letter-spacing:-4px;margin:0 0 18px}.lead{font-size:19px;color:var(--muted);margin-bottom:26px}.weather{width:max-content;display:flex;gap:12px;align-items:center;background:#f8f4ed;border:1px solid var(--line);padding:12px 16px;border-radius:17px;margin-bottom:28px}.weather b{font-size:26px}.weather small{display:block;color:var(--muted);margin-top:3px}.label{font-weight:650;margin-bottom:10px}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}.chip{background:#fff;border:1px solid var(--line);padding:11px 15px;border-radius:14px}.chip.active{background:var(--soft);border-color:#decdb5}.cta{border:0;background:var(--black);color:#fff;padding:16px 20px;border-radius:16px;font-weight:700;font-size:17px;width:100%}.hint{text-align:center;color:var(--muted);font-size:12px;margin-top:9px}.hero-art{min-height:520px;background:linear-gradient(145deg,#e9e3da,#dcd4c8);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}.hero-art .orb{width:280px;height:280px;border-radius:50%;background:#f8f3eb;box-shadow:30px 35px 0 #d4c9ba;opacity:.75}.hero-art:after{content:"TODAY'S LOOK";position:absolute;bottom:28px;left:28px;letter-spacing:2px;font-size:11px}
+.section{background:var(--paper);border:1px solid var(--line);border-radius:25px;padding:26px;margin-top:20px}.sectionhead{display:flex;justify-content:space-between;align-items:end;margin-bottom:17px}.sectiontitle{font-size:26px;font-weight:750;letter-spacing:-1px}.muted{color:var(--muted);font-size:13px}.looks{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.look{background:#f5f1eb;border:1px solid var(--line);border-radius:17px;overflow:hidden}.lookpic{height:190px;display:flex;align-items:center;justify-content:center;font-size:54px;background:linear-gradient(135deg,#eee8df,#ddd6cb)}.lookinfo{padding:13px}.lookinfo b{display:block;margin-bottom:5px}.lookinfo small{color:var(--muted)}
+.uploadgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.upload{background:#fcfaf6;border:1px dashed #d4c9bb;border-radius:17px;padding:20px;text-align:left}.upload .big{font-size:25px;margin-bottom:12px}.upload b{display:block;margin-bottom:5px}.upload small{color:var(--muted)}.privacy{font-size:12px;color:var(--muted);text-align:center;margin-top:14px}
+.pagebar{display:flex;align-items:end;justify-content:space-between;margin:12px 2px 20px}.pagebar h2{margin:0;font-size:34px;letter-spacing:-1.5px}.add{background:var(--black);color:white;border:0;padding:12px 16px;border-radius:14px;font-weight:650}.wardrobe-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.clothing{background:var(--paper);border:1px solid var(--line);border-radius:18px;overflow:hidden;position:relative}.clothing img{width:100%;aspect-ratio:1/1.1;object-fit:cover;background:#eee8df;display:block}.clothing .meta{padding:12px}.clothing b{display:block;font-size:14px}.tag{display:inline-block;margin-top:6px;background:#f0ebe3;border-radius:9px;padding:4px 7px;font-size:11px;color:#6d665d}.empty{grid-column:1/-1;background:var(--paper);border:1px dashed #d4c9bb;border-radius:20px;padding:50px 20px;text-align:center}.empty strong{font-size:18px}.empty p{color:var(--muted);font-size:13px}
+.history{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.historycard{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px}.minioutfit{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:12px 0}.mini{height:95px;border-radius:12px;background:#eee8df;display:flex;align-items:center;justify-content:center;font-size:30px}.historycard b{display:block}.historycard small{color:var(--muted)}
+.profile{background:var(--paper);border:1px solid var(--line);border-radius:25px;padding:28px}.avatar{width:74px;height:74px;border-radius:50%;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:16px}.profile h2{margin:0 0 5px;font-size:28px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:25px}.stat{background:#f6f1e9;border-radius:16px;padding:17px}.stat b{display:block;font-size:23px}.stat span{font-size:12px;color:var(--muted)}.setting{margin-top:20px;border-top:1px solid var(--line)}.row{padding:17px 2px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}.row span{color:var(--muted)}
+.bottom{position:fixed;left:50%;bottom:13px;transform:translateX(-50%);width:min(680px,calc(100% - 26px));background:#fffdf9ed;backdrop-filter:blur(18px);border:1px solid var(--line);border-radius:21px;padding:7px;display:grid;grid-template-columns:repeat(4,1fr);box-shadow:0 15px 45px #00000012;z-index:20}.bottom button{border:0;background:transparent;color:#7b766f;padding:8px;border-radius:14px;font-size:12px}.bottom button b{font-size:19px;display:block;line-height:20px}.bottom button.active{background:#f0e8dc;color:var(--ink);font-weight:650}
+.overlay{position:fixed;inset:0;background:#0007;display:none;align-items:end;justify-content:center;z-index:30}.overlay.show{display:flex}.sheet{width:min(680px,100%);background:var(--paper);border-radius:28px 28px 0 0;padding:24px;max-height:90vh;overflow:auto}.sheethead{display:flex;justify-content:space-between;align-items:center}.sheet h3{font-size:27px;margin:0}.close{border:0;background:#f0ebe3;border-radius:50%;width:36px;height:36px}.sheet .tip{color:var(--muted);font-size:13px;margin:8px 0 18px}.filebtn{display:block;border:1px dashed #cfc2b3;border-radius:17px;padding:18px;text-align:center;background:#fcfaf6;margin-bottom:14px}.previewgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.preview{position:relative}.preview img{width:100%;aspect-ratio:1;border-radius:12px;object-fit:cover}.remove{position:absolute;right:5px;top:5px;border:0;background:#fff;border-radius:50%;width:25px;height:25px}.recognize{width:100%;border:0;background:var(--black);color:#fff;border-radius:15px;padding:14px;font-weight:700;margin-top:15px}.progress{height:7px;background:#eee8df;border-radius:20px;overflow:hidden;margin:14px 0}.progress i{display:block;height:100%;width:0;background:#171717;transition:width .7s}.resultbox{background:#f5f1eb;border-radius:17px;padding:16px;display:none}.resultbox.show{display:block}.resultbox strong{display:block;margin-bottom:8px}.choicegrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:12px}.choice{border:1px solid var(--line);background:#fff;padding:11px;border-radius:12px;text-align:left}.choice.selected{background:var(--soft);border-color:#decdb5}
+.outfitbig{background:#f5f1eb;border-radius:20px;padding:18px;margin-top:16px}.outfititems{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0}.outfititem{height:150px;border-radius:14px;background:#e9e2d8;display:flex;align-items:center;justify-content:center;font-size:48px}.actiongrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.secondary{border:0;background:#eee8df;border-radius:14px;padding:14px;font-weight:650}.black{border:0;background:var(--black);color:#fff;border-radius:14px;padding:14px;font-weight:650}
+.toast{position:fixed;top:16px;left:50%;transform:translate(-50%,-120px);background:#171717;color:#fff;padding:11px 17px;border-radius:13px;z-index:50;transition:.3s;font-size:13px}.toast.show{transform:translate(-50%,0)}
+@media(max-width:780px){.app{padding:12px 12px 105px}.hero{grid-template-columns:1fr;min-height:auto;border-radius:24px}.hero-art{min-height:260px;order:-1}.hero-art .orb{width:180px;height:180px}.hero-copy{padding:32px 22px 26px}h1{font-size:50px}.looks{grid-template-columns:repeat(2,1fr)}.lookpic{height:165px}.uploadgrid{grid-template-columns:1fr}.wardrobe-grid{grid-template-columns:repeat(2,1fr)}.history{grid-template-columns:1fr}.section{padding:21px}.pagebar h2{font-size:30px}.previewgrid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+
+<main class="app">
+<header class="top"><div class="logo">衣搭<span>AI</span></div><button class="iconbtn" onclick="showToast('收藏功能已连接到本地数据')">♡</button></header>
+
+<section id="home" class="page active">
+  <div class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow">YOUR PERSONAL STYLIST</div>
+      <h1>今天穿什么？</h1>
+      <div class="lead">把今天的穿搭交给我。</div>
+      <div class="weather"><b>☀️</b><div><strong>25° · 晴</strong><small>今天 · 舒适出门</small></div></div>
+      <div class="label">今天去哪里？</div>
+      <div class="chips" id="sceneChips">
+        <button class="chip active" onclick="selectScene(this)">日常</button>
+        <button class="chip" onclick="selectScene(this)">上课</button>
+        <button class="chip" onclick="selectScene(this)">上班</button>
+        <button class="chip" onclick="selectScene(this)">约会</button>
+        <button class="chip" onclick="selectScene(this)">逛街</button>
+      </div>
+      <button class="cta" onclick="generateOutfit()">✦ AI 帮我搭配</button>
+      <div class="hint">根据你的衣橱、天气和场景推荐</div>
+    </div>
+    <div class="hero-art"><div class="orb"></div></div>
+  </div>
+
+  <section class="section">
+    <div class="sectionhead"><div><div class="sectiontitle">今日灵感 ✦</div><div class="muted">还没有上传衣橱，也可以先看看。</div></div><button class="muted" onclick="showToast('灵感已换一组')">换一套 ↻</button></div>
+    <div class="looks">
+      <article class="look"><div class="lookpic">👕</div><div class="lookinfo"><b>Clean Casual</b><small>白T · 牛仔裤 · 小白鞋</small></div></article>
+      <article class="look"><div class="lookpic">🧥</div><div class="lookinfo"><b>City Boy</b><small>衬衫 · 阔腿裤 · 帆布鞋</small></div></article>
+      <article class="look"><div class="lookpic">👗</div><div class="lookinfo"><b>Soft Girl</b><small>衬衫 · 半裙 · 乐福鞋</small></div></article>
+      <article class="look"><div class="lookpic">🧢</div><div class="lookinfo"><b>Cool Street</b><small>背心 · 工装裤 · 运动鞋</small></div></article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sectionhead"><div><div class="sectiontitle">让 AI 认识你的衣服 ✦</div><div class="muted">不用一件件整理，一次上传几件，剩下的交给我。</div></div></div>
+    <div class="uploadgrid">
+      <button class="upload" onclick="openUpload()"><div class="big">⌾</div><b>拍一张</b><small>拍下你的衣服</small></button>
+      <button class="upload" onclick="openUpload()"><div class="big">▧</div><b>从相册</b><small>选择已有照片</small></button>
+      <button class="upload" onclick="openUpload()"><div class="big">▱</div><b>批量上传</b><small>一次选多张也可以</small></button>
+    </div>
+    <div class="privacy">⌾ 图片只保存在你的浏览器本地 · V0.2 演示版</div>
+  </section>
+</section>
+
+<section id="wardrobe" class="page">
+  <div class="pagebar"><div><h2>我的衣橱</h2><div class="muted" id="wardrobeCount">0 件衣物</div></div><button class="add" onclick="openUpload()">＋ 添加衣服</button></div>
+  <div class="wardrobe-grid" id="wardrobeGrid"></div>
+</section>
+
+<section id="outfits" class="page">
+  <div class="pagebar"><div><h2>我的穿搭</h2><div class="muted">收藏与最近生成的搭配</div></div></div>
+  <div class="history" id="historyGrid"></div>
+</section>
+
+<section id="profile" class="page">
+  <div class="profile">
+    <div class="avatar">✦</div><h2>我的衣搭</h2><div class="muted">让 AI 越来越懂你的穿衣习惯</div>
+    <div class="stats"><div class="stat"><b id="statClothes">0</b><span>衣物</span></div><div class="stat"><b id="statFav">0</b><span>收藏穿搭</span></div><div class="stat"><b id="statLooks">0</b><span>生成次数</span></div></div>
+    <div class="setting"><div class="row">个人风格 <span>简约 · 休闲 ›</span></div><div class="row">偏好颜色 <span>黑 · 白 · 蓝 ›</span></div><div class="row">隐私与数据 <span>本地保存 ›</span></div></div>
+  </div>
+</section>
+</main>
+
+<nav class="bottom">
+<button class="active" onclick="go('home',this)"><b>⌂</b>首页</button>
+<button onclick="go('wardrobe',this)"><b>♧</b>衣橱</button>
+<button onclick="go('outfits',this)"><b>✦</b>穿搭</button>
+<button onclick="go('profile',this)"><b>○</b>我的</button>
+</nav>
+
+<div class="overlay" id="uploadOverlay" onclick="if(event.target===this)closeUpload()">
+<div class="sheet">
+  <div class="sheethead"><h3>把衣服交给 AI</h3><button class="close" onclick="closeUpload()">×</button></div>
+  <div class="tip">可以一次选择多张照片。V0.2 会在浏览器本地模拟识别并保存。</div>
+  <label class="filebtn">＋ 选择照片（可多选）<input id="fileInput" type="file" accept="image/*" multiple hidden onchange="handleFiles(this.files)"></label>
+  <div class="previewgrid" id="previewGrid"></div>
+  <div class="progress" id="progress" style="display:none"><i id="progressBar"></i></div>
+  <div class="resultbox" id="recognitionResult"></div>
+  <button class="recognize" id="recognizeBtn" style="display:none" onclick="recognize()">✦ 让 AI 识别</button>
+</div>
+</div>
+
+<div class="overlay" id="outfitOverlay" onclick="if(event.target===this)closeOutfit()">
+<div class="sheet">
+  <div class="sheethead"><h3>今日穿搭</h3><button class="close" onclick="closeOutfit()">×</button></div>
+  <div class="tip" id="outfitScene">日常 · 25° · 晴</div>
+  <div class="outfitbig">
+    <b>今天就穿这一套</b>
+    <div class="outfititems"><div class="outfititem">👕</div><div class="outfititem">👖</div><div class="outfititem">👟</div></div>
+    <strong id="outfitText">白色宽松短袖 + 浅蓝直筒牛仔裤 + 小白鞋</strong>
+    <p class="muted">天气舒适、场景轻松，整体清爽不费力。V0.2 暂用演示搭配；接入真实 AI 后将根据你的衣橱生成。</p>
+    <div class="actiongrid"><button class="secondary" onclick="favoriteOutfit()">♡ 喜欢</button><button class="black" onclick="generateOutfit(true)">↻ 换一套</button></div>
+  </div>
+</div>
+</div>
+
+<script>
+const KEY='yida_ai_v02_clothes';
+const HIST='yida_ai_v02_history';
+let uploads=[];
+let scene='日常';
+
+function getClothes(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}}
+function setClothes(x){localStorage.setItem(KEY,JSON.stringify(x))}
+function getHistory(){try{return JSON.parse(localStorage.getItem(HIST)||'[]')}catch(e){return[]}}
+function setHistory(x){localStorage.setItem(HIST,JSON.stringify(x))}
+function showToast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1700)}
+function go(id,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.bottom button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(id==='wardrobe')renderWardrobe();if(id==='outfits')renderHistory();if(id==='profile')renderProfile();window.scrollTo({top:0,behavior:'smooth'})}
+function selectScene(el){document.querySelectorAll('#sceneChips .chip').forEach(x=>x.classList.remove('active'));el.classList.add('active');scene=el.textContent}
+function generateOutfit(swap=false){document.getElementById('outfitScene').textContent=scene+' · 25° · 晴';const sets=[['白色宽松短袖 + 浅蓝直筒牛仔裤 + 小白鞋','清爽日常'],['灰色短袖 + 黑色阔腿裤 + 帆布鞋','松弛简约'],['浅蓝衬衫 + 米色长裤 + 小白鞋','干净轻盈'],['黑色短袖 + 卡其工装裤 + 运动鞋','轻松街头']];let h=getHistory();let used=h.length%sets.length;let s=sets[(used+(swap?1:0))%sets.length];document.getElementById('outfitText').textContent=s[0];document.getElementById('outfitOverlay').classList.add('show');if(!swap){h.unshift({id:Date.now(),scene,text:s[0],favorite:false});setHistory(h.slice(0,20));renderProfile()}}
+function favoriteOutfit(){let h=getHistory();if(h[0])h[0].favorite=true;setHistory(h);renderProfile();showToast('已收藏这套穿搭');}
+function closeOutfit(){document.getElementById('outfitOverlay').classList.remove('show')}
+function openUpload(){uploads=[];document.getElementById('previewGrid').innerHTML='';document.getElementById('recognitionResult').classList.remove('show');document.getElementById('recognizeBtn').style.display='none';document.getElementById('uploadOverlay').classList.add('show')}
+function closeUpload(){document.getElementById('uploadOverlay').classList.remove('show')}
+function handleFiles(files){uploads=[];[...files].slice(0,20).forEach(file=>{if(!file.type.startsWith('image/'))return;const reader=new FileReader();reader.onload=e=>{uploads.push({src:e.target.result,name:file.name});renderPreviews()};reader.readAsDataURL(file)});showToast('正在读取照片…')}
+function renderPreviews(){const g=document.getElementById('previewGrid');g.innerHTML='';uploads.forEach((u,i)=>{const d=document.createElement('div');d.className='preview';d.innerHTML=`<img src="${u.src}"><button class="remove" onclick="removeUpload(${i})">×</button>`;g.appendChild(d)});document.getElementById('recognizeBtn').style.display=uploads.length?'block':'none'}
+function removeUpload(i){uploads.splice(i,1);renderPreviews()}
+function recognize(){if(!uploads.length)return;const bar=document.getElementById('progress'),b=document.getElementById('progressBar'),res=document.getElementById('recognitionResult');bar.style.display='block';b.style.width='10%';document.getElementById('recognizeBtn').disabled=true;let n=0;const timer=setInterval(()=>{n+=20;b.style.width=Math.min(n,100)+'%';if(n>=100){clearInterval(timer);document.getElementById('recognizeBtn').disabled=false;const names=['上衣','下装','鞋子','外套','配饰'];res.innerHTML=`<strong>AI 已发现 ${uploads.length} 件衣物</strong><div class="muted">V0.2 演示识别：你可以直接保存，真实 AI 接入后会自动判断颜色、版型、季节和场景。</div><div class="choicegrid">${uploads.map((u,i)=>`<button class="choice selected" onclick="this.classList.toggle('selected')">${names[i%names.length]} · ${['简约','休闲','基础','通勤'][i%4]}</button>`).join('')}</div><button class="recognize" onclick="saveClothes()">✓ 确认并加入我的衣橱</button>`;res.classList.add('show')}}},180)}
+function saveClothes(){let c=getClothes();uploads.forEach((u,i)=>c.push({id:Date.now()+i,src:u.src,category:['上衣','下装','鞋子','外套','配饰'][i%5],style:['简约','休闲','基础','通勤'][i%4]}));setClothes(c);closeUpload();renderWardrobe();renderProfile();showToast(`已加入 ${uploads.length} 件衣物`);uploads=[]}
+function renderWardrobe(){const c=getClothes();document.getElementById('wardrobeCount').textContent=c.length+' 件衣物';const g=document.getElementById('wardrobeGrid');if(!c.length){g.innerHTML='<div class="empty"><strong>你的衣橱还很空</strong><p>先添加 3～5 件常穿的衣服，AI 就可以开始帮你搭配。</p><button class="add" onclick="openUpload()">＋ 添加第一件</button></div>';return}g.innerHTML=c.map(x=>`<article class="clothing"><img src="${x.src}" alt=""><div class="meta"><b>${x.category}</b><span class="tag">${x.style}</span></div></article>`).join('')}
+function renderHistory(){const h=getHistory(),g=document.getElementById('historyGrid');if(!h.length){g.innerHTML='<div class="empty"><strong>还没有穿搭记录</strong><p>去首页点击「AI 帮我搭配」，第一套穿搭会自动出现在这里。</p></div>';return}g.innerHTML=h.map(x=>`<article class="historycard"><small>${x.scene} · 25° · 晴</small><div class="minioutfit"><div class="mini">👕</div><div class="mini">👖</div><div class="mini">👟</div></div><b>${x.text}</b><small>${x.favorite?'♥ 已收藏':'最近生成'}</small></article>`).join('')}
+function renderProfile(){const c=getClothes(),h=getHistory();document.getElementById('statClothes').textContent=c.length;document.getElementById('statFav').textContent=h.filter(x=>x.favorite).length;document.getElementById('statLooks').textContent=h.length}
+renderWardrobe();renderHistory();renderProfile();
+</script>
+</body>
+</html>
